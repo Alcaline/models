@@ -1,0 +1,29 @@
+version: "3.2"
+
+services:
+  object-detection:
+    build:
+      dockerfile: research/object_detection/dockerfiles/tf1/Dockerfile
+      context: .
+      labels:
+        - tensorflow/object-detection:latest
+    ports:
+      - 8888:8888
+      - 6006:6006
+    volumes:
+      - type: bind
+        source: ${DATA_SRC}
+        target: ${DATA_TGT}
+      - type: bind
+        source: ${CHECKPOINTS_SRC}
+        target: ${CHECKPOINTS_TGT}
+      - type: bind
+        source: ${ANNOTATIONS_SRC}
+        target: ${ANNOTATIONS_TGT}
+      - type: bind
+        source: ${IMAGES_SRC}
+        target: ${IMAGES_TGT}
+      - type: bind
+        source: ${XMLS_SRC}
+        target: ${XMLS_TGT}
+    command: ["--gpus", "all"]

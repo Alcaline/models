@@ -1,4 +1,7 @@
-FROM tensorflow/tensorflow:1.15.2-gpu-py3
+FROM tensorflow/tensorflow:1.15.2-gpu-py3-jupyter
+
+EXPOSE 8888
+EXPOSE 6006
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -33,6 +36,8 @@ RUN pip3 install --user jupyter
 RUN pip3 install --user matplotlib
 RUN pip3 install --user pycocotools
 RUN pip3 install --user tf-slim
+RUN pip3 install --user jupyter_http_over_ws
+RUN pip3 install --user sklearn
 
 # Copy this version of of the model garden into the image
 COPY --chown=tensorflow . /home/tensorflow/models
@@ -42,3 +47,6 @@ RUN (cd /home/tensorflow/models/research/ && protoc object_detection/protos/*.pr
 
 ENV PYTHONPATH $PYTHONPATH:/home/tensorflow/models/research/:/home/tensorflow/models/research/slim
 ENV TF_CPP_MIN_LOG_LEVEL 3
+
+RUN ["jupyter", "serverextension", "enable", "--py=jupyter_http_over_ws"]
+ENTRYPOINT ["jupyter", "notebook", "--NotebookApp.allow_origin='https://colab.research.google.com'", "--port=8888", "--NotebookApp.port_retries=0", "--notebook-dir=/content", "--ip=0.0.0.0", "--allow-root"]

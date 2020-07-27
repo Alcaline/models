@@ -20,8 +20,12 @@ from __future__ import print_function
 
 from absl import flags
 
-import tensorflow.compat.v1 as tf
+try:
+    import tensorflow.compat.v1 as tf
+except:
+    import tensorflow as tf
 
+from object_detection import session_config
 from object_detection import model_hparams
 from object_detection import model_lib
 
@@ -58,13 +62,17 @@ flags.DEFINE_integer(
     'retries upon encountering tf.errors.InvalidArgumentError. If negative, '
     'will always retry the evaluation.'
 )
+flags.DEFINE_string(
+    'session_config_proto', None, 'Session configuration proto. See ConfigProto.'
+)
 FLAGS = flags.FLAGS
 
 
 def main(unused_argv):
   flags.mark_flag_as_required('model_dir')
   flags.mark_flag_as_required('pipeline_config_path')
-  config = tf.estimator.RunConfig(model_dir=FLAGS.model_dir)
+  sesscfg = session_config.create_session_config(FLAGS.session_config_proto)
+  config = tf.estimator.RunConfig(model_dir=FLAGS.model_dir, session_config=sesscfg)
 
   train_and_eval_dict = model_lib.create_estimator_and_inputs(
       run_config=config,
