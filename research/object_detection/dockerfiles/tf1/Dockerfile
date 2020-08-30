@@ -3,6 +3,17 @@ FROM tensorflow/tensorflow:1.15.2-gpu-py3-jupyter
 EXPOSE 8888
 EXPOSE 6006
 
+ENV CONTENT_PATH=/home/tensorflow
+ENV MODELS_PATH=/usr/local/lib/python3.6/dist-packages/tensorflow/models
+ENV IMAGES_PATH=$MODELS_PATH/images
+ENV ANNOTATIONS_PATH=$MODELS_PATH/annotations
+ENV XMLS_PATH=$MODELS_PATH/annotations/xmls
+ENV CHECKPOINTS_PATH=$MODELS_PATH/checkpoints
+ENV TFREC_PATH=$MODELS_PATH/tf_record
+ENV TRAIN_PATH=$MODELS_PATH/train
+ENV EVAL_PATH=$MODELS_PATH/eval
+ENV DATA_PATH=$MODELS_PATH/data
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install apt dependencies
@@ -48,5 +59,6 @@ RUN (cd /home/tensorflow/models/research/ && protoc object_detection/protos/*.pr
 ENV PYTHONPATH $PYTHONPATH:/home/tensorflow/models/research/:/home/tensorflow/models/research/slim
 ENV TF_CPP_MIN_LOG_LEVEL 3
 
-RUN ["jupyter", "serverextension", "enable", "--py=jupyter_http_over_ws"]
-ENTRYPOINT ["jupyter", "notebook", "--NotebookApp.allow_origin='https://colab.research.google.com'", "--port=8888", "--NotebookApp.port_retries=0", "--notebook-dir=/content", "--ip=0.0.0.0", "--allow-root"]
+RUN ["jupyter", "serverextension", "enable", "--py", "jupyter_http_over_ws"]
+ENTRYPOINT ["jupyter", "notebook", "--NotebookApp.allow_origin='https://colab.research.google.com'", "--port=8888", "--NotebookApp.port_retries=0", "--notebook-dir=/home/tensorflow", "--ip=0.0.0.0", "--allow-root"]
+

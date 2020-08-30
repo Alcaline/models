@@ -12,18 +12,19 @@ services:
       - 6006:6006
     volumes:
       - type: bind
-        source: ${DATA_SRC}
-        target: ${DATA_TGT}
+        source: /home/samot/hd/samot/Downloads/docker-tf-gpu-jupyter/our_project/models/data/
+        target: /usr/local/lib/python3.6/dist-packages/tensorflow/models/data
       - type: bind
-        source: ${CHECKPOINTS_SRC}
-        target: ${CHECKPOINTS_TGT}
+        source: /home/samot/hd/samot/Downloads/docker-tf-gpu-jupyter/our_project/models/modelname/
+        target: /usr/local/lib/python3.6/dist-packages/tensorflow/models/model
       - type: bind
-        source: ${ANNOTATIONS_SRC}
-        target: ${ANNOTATIONS_TGT}
+        source: /home/samot/hd/samot/Downloads/docker-tf-gpu-jupyter/our_project/models/annotations/
+        target: /usr/local/lib/python3.6/dist-packages/tensorflow/models/annotations
       - type: bind
-        source: ${IMAGES_SRC}
-        target: ${IMAGES_TGT}
+        source: /home/samot/hd/samot/Downloads/docker-tf-gpu-jupyter/dataset/ColorImages/
+        target: /usr/local/lib/python3.6/dist-packages/tensorflow/models/images
       - type: bind
-        source: ${XMLS_SRC}
-        target: ${XMLS_TGT}
-    command: ["--gpus", "all"]
+        source: /home/samot/hd/samot/Downloads/docker-tf-gpu-jupyter/dataset/Annotations/
+        target: /usr/local/lib/python3.6/dist-packages/tensorflow/models/annotations/xmls
+    command: ["--gpu"]
+

@@ -1,0 +1,39 @@
+item {
+	id: 1
+	name: 'cutting tools'
+}
+
+item {
+	id: 2
+	name: 'fastener tools'
+}
+
+item {
+	id: 3
+	name: 'adhesive tools'
+}
+
+item {
+	id: 4
+	name: 'measuring tools'
+}
+
+item {
+	id: 5
+	name: 'clamp tools'
+}
+
+item {
+	id: 6
+	name: 'marker'
+}
+
+item {
+	id: 7
+	name: 'polish tools'
+}
+
+item {
+	id: 8
+	name: 'protection tools'
+}
